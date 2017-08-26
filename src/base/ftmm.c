@@ -188,8 +188,8 @@
                                  FT_Fixed*  coords )
   {
     FT_Error                      error;
-    FT_Service_MultiMasters       service_mm;
-    FT_Service_MetricsVariations  service_mvar;
+    FT_Service_MultiMasters       service_mm   = NULL;
+    FT_Service_MetricsVariations  service_mvar = NULL;
 
 
     /* check of `face' delayed to `ft_face_get_mm_service' */
@@ -206,11 +206,10 @@
     }
 
     if ( !error )
-      error = ft_face_get_mvar_service( face, &service_mvar );
-
-    if ( !error )
     {
-      if ( service_mvar->metrics_adjust )
+      (void)ft_face_get_mvar_service( face, &service_mvar );
+
+      if ( service_mvar && service_mvar->metrics_adjust )
         service_mvar->metrics_adjust( face );
     }
 
@@ -261,8 +260,8 @@
                                FT_Fixed*  coords )
   {
     FT_Error                      error;
-    FT_Service_MultiMasters       service_mm;
-    FT_Service_MetricsVariations  service_mvar;
+    FT_Service_MultiMasters       service_mm   = NULL;
+    FT_Service_MetricsVariations  service_mvar = NULL;
 
 
     /* check of `face' delayed to `ft_face_get_mm_service' */
@@ -279,11 +278,10 @@
     }
 
     if ( !error )
-      error = ft_face_get_mvar_service( face, &service_mvar );
-
-    if ( !error )
     {
-      if ( service_mvar->metrics_adjust )
+      (void)ft_face_get_mvar_service( face, &service_mvar );
+
+      if ( service_mvar && service_mvar->metrics_adjust )
         service_mvar->metrics_adjust( face );
     }
 
@@ -309,8 +307,8 @@
                                 FT_Fixed*  coords )
   {
     FT_Error                      error;
-    FT_Service_MultiMasters       service_mm;
-    FT_Service_MetricsVariations  service_mvar;
+    FT_Service_MultiMasters       service_mm   = NULL;
+    FT_Service_MetricsVariations  service_mvar = NULL;
 
 
     /* check of `face' delayed to `ft_face_get_mm_service' */
@@ -327,11 +325,10 @@
     }
 
     if ( !error )
-      error = ft_face_get_mvar_service( face, &service_mvar );
-
-    if ( !error )
     {
-      if ( service_mvar->metrics_adjust )
+      (void)ft_face_get_mvar_service( face, &service_mvar );
+
+      if ( service_mvar && service_mvar->metrics_adjust )
         service_mvar->metrics_adjust( face );
     }
 

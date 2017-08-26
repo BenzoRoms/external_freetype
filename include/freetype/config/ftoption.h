@@ -77,36 +77,6 @@ FT_BEGIN_HEADER
 
   /*************************************************************************/
   /*                                                                       */
-  /* If you enable this configuration option, FreeType recognizes an       */
-  /* environment variable called `FREETYPE_PROPERTIES', which can be used  */
-  /* to control the various font drivers and modules.  The controllable    */
-  /* properties are listed in the section `Controlling FreeType Modules'   */
-  /* in the reference's table of contents; currently there are properties  */
-  /* for the auto-hinter (file `ftautoh.h'), CFF (file `ftcffdrv.h'),      */
-  /* TrueType (file `ftttdrv.h'), and PCF (file `ftpcfdrv.h').             */
-  /*                                                                       */
-  /* `FREETYPE_PROPERTIES' has the following syntax form (broken here into */
-  /* multiple lines for better readability).                               */
-  /*                                                                       */
-  /*   <optional whitespace>                                               */
-  /*   <module-name1> ':'                                                  */
-  /*   <property-name1> '=' <property-value1>                              */
-  /*   <whitespace>                                                        */
-  /*   <module-name2> ':'                                                  */
-  /*   <property-name2> '=' <property-value2>                              */
-  /*   ...                                                                 */
-  /*                                                                       */
-  /* Example:                                                              */
-  /*                                                                       */
-  /*   FREETYPE_PROPERTIES=truetype:interpreter-version=35 \               */
-  /*                       cff:no-stem-darkening=1 \                       */
-  /*                       autofitter:warping=1                            */
-  /*                                                                       */
-  /* #define FT_CONFIG_OPTION_ENVIRONMENT_PROPERTIES                       */
-
-
-  /*************************************************************************/
-  /*                                                                       */
   /* Uncomment the line below if you want to activate sub-pixel rendering  */
   /* (a.k.a. LCD rendering, or ClearType) in this build of the library.    */
   /*                                                                       */
@@ -400,7 +370,7 @@ FT_BEGIN_HEADER
   /* supply font data incrementally as the document is parsed, such        */
   /* as the Ghostscript interpreter for the PostScript language.           */
   /*                                                                       */
-  /* #define FT_CONFIG_OPTION_INCREMENTAL                                  */
+/* #define FT_CONFIG_OPTION_INCREMENTAL */
 
 
   /*************************************************************************/
@@ -684,7 +654,7 @@ FT_BEGIN_HEADER
   /* [1] http://www.microsoft.com/typography/cleartype/truetypecleartype.aspx */
   /*                                                                       */
 /* #define TT_CONFIG_OPTION_SUBPIXEL_HINTING  1         */
-/* #define TT_CONFIG_OPTION_SUBPIXEL_HINTING  2         */
+#define TT_CONFIG_OPTION_SUBPIXEL_HINTING  2
 /* #define TT_CONFIG_OPTION_SUBPIXEL_HINTING  ( 1 | 2 ) */
 
 
@@ -865,7 +835,7 @@ FT_BEGIN_HEADER
   /* If this option is activated, it can be controlled with the            */
   /* `no-long-family-names' property of the pcf driver module.             */
   /*                                                                       */
-/* #define PCF_CONFIG_OPTION_LONG_FAMILY_NAMES */
+//#define PCF_CONFIG_OPTION_LONG_FAMILY_NAMES
 
 
   /*************************************************************************/
@@ -886,7 +856,9 @@ FT_BEGIN_HEADER
 
   /*************************************************************************/
   /*                                                                       */
-  /* Compile autofit module with Indic script support.                     */
+  /* Compile autofit module with fallback Indic script support, covering   */
+  /* some scripts that the `latin' submodule of the autofit module doesn't */
+  /* (yet) handle.                                                         */
   /*                                                                       */
 #define AF_CONFIG_OPTION_INDIC
 
@@ -903,7 +875,27 @@ FT_BEGIN_HEADER
   /* `warping' property of the auto-hinter (see file `ftautoh.h' for more  */
   /* information; by default it is switched off).                          */
   /*                                                                       */
-#define AF_CONFIG_OPTION_USE_WARPER
+/* #define AF_CONFIG_OPTION_USE_WARPER */
+
+  /*************************************************************************/
+  /*                                                                       */
+  /* Use TrueType-like size metrics for `light' auto-hinting.              */
+  /*                                                                       */
+  /* It is strongly recommended to avoid this option, which exists only to */
+  /* help some legacy applications retain its appearance and behaviour     */
+  /* with respect to auto-hinted TrueType fonts.                           */
+  /*                                                                       */
+  /* The very reason this option exists at all are GNU/Linux distributions */
+  /* like Fedora that did not un-patch the following change (which was     */
+  /* present in FreeType between versions 2.4.6 and 2.7.1, inclusive).     */
+  /*                                                                       */
+  /*   2011-07-16  Steven Chu  <steven.f.chu@gmail.com>                    */
+  /*                                                                       */
+  /*     [truetype] Fix metrics on size request for scalable fonts.        */
+  /*                                                                       */
+  /* This problematic commit is now reverted (more or less).               */
+  /*                                                                       */
+/* #define AF_CONFIG_OPTION_TT_SIZE_METRICS */
 
   /* */
 
@@ -922,12 +914,14 @@ FT_BEGIN_HEADER
 #ifdef TT_CONFIG_OPTION_BYTECODE_INTERPRETER
 #define  TT_USE_BYTECODE_INTERPRETER
 
+#ifdef TT_CONFIG_OPTION_SUBPIXEL_HINTING
 #if TT_CONFIG_OPTION_SUBPIXEL_HINTING & 1
 #define  TT_SUPPORT_SUBPIXEL_HINTING_INFINALITY
 #endif
 
 #if TT_CONFIG_OPTION_SUBPIXEL_HINTING & 2
 #define  TT_SUPPORT_SUBPIXEL_HINTING_MINIMAL
+#endif
 #endif
 #endif
 

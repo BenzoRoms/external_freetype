@@ -29,13 +29,13 @@
 #include "afglobal.h"
 #include "afpic.h"
 #include "aflatin.h"
+#include "afcjk.h"
 
 
 #ifdef AF_CONFIG_OPTION_CJK
 
 #undef AF_CONFIG_OPTION_CJK_BLUE_HANI_VERT
 
-#include "afcjk.h"
 #include "aferrors.h"
 
 
@@ -1398,9 +1398,9 @@
       other_flags |= AF_LATIN_HINTS_VERT_SNAP;
 
     /*
-     *  We adjust stems to full pixels only if we don't use the `light' mode.
+     *  We adjust stems to full pixels unless in `light' or `lcd' mode.
      */
-    if ( mode != FT_RENDER_MODE_LIGHT )
+    if ( mode != FT_RENDER_MODE_LIGHT && mode != FT_RENDER_MODE_LCD )
       other_flags |= AF_LATIN_HINTS_STEM_ADJUST;
 
     if ( mode == FT_RENDER_MODE_MONO )

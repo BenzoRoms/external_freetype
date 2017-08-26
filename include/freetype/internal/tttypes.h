@@ -1290,6 +1290,8 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /*    glyf_offset          :: The file offset of the `glyf' table.       */
   /*                                                                       */
+  /*    is_cff2              :: Set if the font format is CFF2.            */
+  /*                                                                       */
   /*    doblend              :: A boolean which is set if the font should  */
   /*                            be blended (this is for GX var).           */
   /*                                                                       */
@@ -1306,6 +1308,15 @@ FT_BEGIN_HEADER
   /*                            support is present, valid, and usable.     */
   /*                            For example, TT_FACE_FLAG_VAR_FVAR is only */
   /*                            set if we have at least one design axis.   */
+  /*                                                                       */
+  /*    var_postscript_prefix ::                                           */
+  /*                            The PostScript name prefix needed for      */
+  /*                            constructing a variation font instance's   */
+  /*                            PS name .                                  */
+  /*                                                                       */
+  /*    var_postscript_prefix_len ::                                       */
+  /*                            The length of the `var_postscript_prefix'  */
+  /*                            string.                                    */
   /*                                                                       */
   /*    horz_metrics_size    :: The size of the `hmtx' table.              */
   /*                                                                       */
@@ -1372,7 +1383,7 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /*    sph_compatibility_mode ::                                          */
   /*                            This flag is set if we are in ClearType    */
-  /*                            backwards compatibility mode (used by the  */
+  /*                            backward compatibility mode (used by the   */
   /*                            v38 implementation of the bytecode         */
   /*                            interpreter).                              */
   /*                                                                       */
@@ -1457,7 +1468,7 @@ FT_BEGIN_HEADER
 
     /***********************************************************************/
     /*                                                                     */
-    /* TrueType-specific fields (ignored by the OTF-Type2 driver)          */
+    /* TrueType-specific fields (ignored by the CFF driver)                */
     /*                                                                     */
     /***********************************************************************/
 
@@ -1492,7 +1503,7 @@ FT_BEGIN_HEADER
     FT_ULong              glyf_len;
     FT_ULong              glyf_offset;    /* since 2.7.1 */
 
-    FT_Bool               isCFF2;         /* since 2.7.1 */
+    FT_Bool               is_cff2;        /* since 2.7.1 */
 
 #ifdef TT_CONFIG_OPTION_GX_VAR_SUPPORT
     FT_Bool               doblend;
@@ -1500,6 +1511,10 @@ FT_BEGIN_HEADER
 
     FT_Bool               is_default_instance;   /* since 2.7.1 */
     FT_UInt32             variation_support;     /* since 2.7.1 */
+
+    const char*           var_postscript_prefix;     /* since 2.7.2 */
+    FT_UInt               var_postscript_prefix_len; /* since 2.7.2 */
+
 #endif
 
     /* since version 2.2 */
