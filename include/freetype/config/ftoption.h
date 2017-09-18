@@ -77,20 +77,47 @@ FT_BEGIN_HEADER
 
   /*************************************************************************/
   /*                                                                       */
-  /* Uncomment the line below if you want to activate sub-pixel rendering  */
-  /* (a.k.a. LCD rendering, or ClearType) in this build of the library.    */
+  /* If you enable this configuration option, FreeType recognizes an       */
+  /* environment variable called `FREETYPE_PROPERTIES', which can be used  */
+  /* to control the various font drivers and modules.  The controllable    */
+  /* properties are listed in the section `Controlling FreeType Modules'   */
+  /* in the reference's table of contents; currently there are properties  */
+  /* for the auto-hinter (file `ftautoh.h'), CFF (file `ftcffdrv.h'),      */
+  /* TrueType (file `ftttdrv.h'), and PCF (file `ftpcfdrv.h').             */
+  /*                                                                       */
+  /* `FREETYPE_PROPERTIES' has the following syntax form (broken here into */
+  /* multiple lines for better readability).                               */
+  /*                                                                       */
+  /*   <optional whitespace>                                               */
+  /*   <module-name1> ':'                                                  */
+  /*   <property-name1> '=' <property-value1>                              */
+  /*   <whitespace>                                                        */
+  /*   <module-name2> ':'                                                  */
+  /*   <property-name2> '=' <property-value2>                              */
+  /*   ...                                                                 */
+  /*                                                                       */
+  /* Example:                                                              */
+  /*                                                                       */
+  /*   FREETYPE_PROPERTIES=truetype:interpreter-version=35 \               */
+  /*                       cff:no-stem-darkening=1 \                       */
+  /*                       autofitter:warping=1                            */
+  /*                                                                       */
+/* #define FT_CONFIG_OPTION_ENVIRONMENT_PROPERTIES */
+
+
+  /*************************************************************************/
+  /*                                                                       */
+  /* Uncomment the line below if you want to activate LCD rendering        */
+  /* technology similar to ClearType in this build of the library.  This   */
+  /* technology triples the resolution in the direction color subpixels.   */
+  /* To mitigate color fringes inherent to this technology, you also need  */
+  /* to explicitly set up LCD filtering.                                   */
   /*                                                                       */
   /* Note that this feature is covered by several Microsoft patents        */
   /* and should not be activated in any default build of the library.      */
-  /*                                                                       */
-  /* This macro has no impact on the FreeType API, only on its             */
-  /* _implementation_.  For example, using FT_RENDER_MODE_LCD when calling */
-  /* FT_Render_Glyph still generates a bitmap that is 3 times wider than   */
-  /* the original size in case this macro isn't defined; however, each     */
-  /* triplet of subpixels has R=G=B.                                       */
-  /*                                                                       */
-  /* This is done to allow FreeType clients to run unmodified, forcing     */
-  /* them to display normal gray-level anti-aliased glyphs.                */
+  /* When this macro is not defined, FreeType offers alternative LCD       */
+  /* rendering technology that produces excellent output without LCD       */
+  /* filtering.                                                            */
   /*                                                                       */
 /* #define FT_CONFIG_OPTION_SUBPIXEL_RENDERING */
 
@@ -297,7 +324,7 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /*   - The TrueType driver will provide its own set of glyph names,      */
   /*     if you build it to support postscript names in the TrueType       */
-  /*     `post' table.                                                     */
+  /*     `post' table, but will not synthesize a missing Unicode charmap.  */
   /*                                                                       */
   /*   - The Type 1 driver will not be able to synthesize a Unicode        */
   /*     charmap out of the glyphs found in the fonts.                     */
